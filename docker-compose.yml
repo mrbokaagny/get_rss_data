@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db_postgres:
+    image: postgres:latest
+    container_name: rfi_postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: flux_rss
+      PGDATA: /var/lib/postgresql/18/docker
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_volume_data:/var/lib/postgresql
+    restart: always
+
+  scraper_rss:
+    build: .
+    image: get_rss_data:latest
+    container_name: rfi_scraper_container
+    volumes:
+      - rss_volume_data:/data
+    depends_on:
+      - db_postgres
+
+volumes:
+  rss_volume_data:
+    name: rss_volume_data
+  pg_volume_data :
+    name: db_volume_data
