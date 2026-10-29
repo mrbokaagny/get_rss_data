@@ -23,4 +23,4 @@ RUN mkdir -p /data
 
 COPY . /app/
 
-CMD ["python", "main.py"]
+#CMD ["python", "main.py"]
